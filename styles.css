@@ -413,57 +413,69 @@ body {
     border-radius: 4px;
 }
 
-/* Diplomas Grid */
+/* Diplomas & Certificaciones (Diseño Adaptable) */
 .grid-diplomas {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.8rem;
 }
 
 .diploma-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    padding: 1rem;
-    border-radius: 8px;
-    transition: transform 0.3s, border-color 0.3s;
+    padding: 1.2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .diploma-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--accent-cyan);
+    box-shadow: 0 8px 25px rgba(0, 242, 254, 0.15);
 }
 
 .diploma-img-wrapper {
     width: 100%;
-    height: 160px;
+    height: auto;
+    /* Permite que la altura se ajuste sola al documento */
+    max-height: 220px;
+    /* Límite para que no abarque toda la pantalla */
     overflow: hidden;
     border-radius: 6px;
-    margin-bottom: 0.8rem;
-    background-color: var(--bg-terminal);
+    margin-bottom: 1rem;
+    background-color: #050811;
     border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .diploma-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    /* Ajusta la imagen completa sin recortar bordes */
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
-.diploma-img-wrapper img:hover {
-    transform: scale(1.05);
+.diploma-card:hover .diploma-img-wrapper img {
+    transform: scale(1.03);
 }
 
 .diploma-card h4 {
     color: var(--text-main);
-    font-size: 0.98rem;
-    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    margin-bottom: 0.4rem;
 }
 
 .diploma-card p {
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
 }
 
 /* Skills Grid */
