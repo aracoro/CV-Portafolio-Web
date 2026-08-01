@@ -24,24 +24,26 @@ body {
     line-height: 1.6;
 }
 
-/* Navbar */
+/* ==========================================
+   1. BARRA DE NAVEGACIÓN
+   ========================================== */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 8%;
+    padding: 1rem 5%;
     background-color: rgba(10, 14, 23, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     font-family: var(--font-mono);
 }
 
 .logo {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 .prompt {
@@ -62,13 +64,13 @@ body {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 1.5rem;
+    gap: 1.2rem;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     transition: color 0.3s;
 }
 
@@ -88,9 +90,11 @@ body {
     cursor: pointer;
 }
 
-/* Hero Section */
+/* ==========================================
+   2. HERO / FOTO DE PERFIL (FORMATO TARJETA)
+   ========================================== */
 .hero {
-    padding: 5rem 1.5rem 3rem 1.5rem;
+    padding: 4rem 1.5rem 3rem 1.5rem;
 }
 
 .hero-container {
@@ -103,10 +107,11 @@ body {
     flex-wrap: wrap;
 }
 
+/* Foto de Perfil: Estilo Tarjeta Elegante (Sin Círculo) */
 .profile-img-container {
     position: relative;
-    width: 170px;
-    height: 170px;
+    width: 180px;
+    height: 220px;
     flex-shrink: 0;
 }
 
@@ -114,17 +119,25 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid var(--accent-cyan);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.profile-img-container:hover .profile-img {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+    transform: translateY(-3px);
 }
 
 .status-indicator {
     position: absolute;
-    bottom: 8px;
-    right: 12px;
-    width: 18px;
-    height: 18px;
+    bottom: -5px;
+    right: -5px;
+    width: 16px;
+    height: 16px;
     background-color: var(--accent-green);
     border: 3px solid var(--bg-main);
     border-radius: 50%;
@@ -159,7 +172,7 @@ body {
 }
 
 .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     margin-bottom: 0.8rem;
 }
 
@@ -170,7 +183,7 @@ body {
 
 .subtitle {
     color: var(--text-muted);
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin-bottom: 1.8rem;
 }
 
@@ -213,7 +226,9 @@ body {
     color: var(--accent-cyan);
 }
 
-/* Container & Sections */
+/* ==========================================
+   3. ESTRUCTURA Y SECCIONES
+   ========================================== */
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -223,7 +238,6 @@ body {
 .section {
     margin-bottom: 4rem;
     scroll-margin-top: 90px;
-    /* Evita que la barra tape el título al hacer clic en el menú */
 }
 
 .section-title {
@@ -487,10 +501,6 @@ body {
     flex-direction: column;
 }
 
-.skills-list li small {
-    color: #64748b;
-}
-
 /* Contact Form */
 .contact-info-text {
     color: var(--accent-cyan);
@@ -541,10 +551,13 @@ footer {
     font-size: 0.8rem;
 }
 
-/* Responsivo y Menú Desplegable en Celulares */
-@media (max-width: 768px) {
+/* ==========================================
+   4. RESPONSIVO Y MENÚ HAMBURGUESA
+   ========================================== */
+@media (max-width: 900px) {
     .menu-toggle {
         display: block;
+        /* Muestra el botón ☰ en pantallas pequeñas */
     }
 
     .nav-links {
@@ -563,6 +576,7 @@ footer {
 
     .nav-links.active {
         display: flex;
+        /* Despliega el menú al pulsar el botón */
     }
 
     .hero-container {

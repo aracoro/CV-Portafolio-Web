@@ -20,7 +20,13 @@
         <div class="logo">
             <span class="prompt">acrn@network:~$</span> <span class="cursor">_</span>
         </div>
-        <ul class="nav-links">
+
+        <!-- Botón Hamburguesa -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+            ☰
+        </button>
+
+        <ul class="nav-links" id="nav-links">
             <li><a href="#sobre-mi" data-es="// sobre-mi" data-en="// about-me">// sobre-mi</a></li>
             <li><a href="#cv-section" data-es="// mi-cv" data-en="// my-resume">// mi-cv</a></li>
             <li><a href="#experiencia" data-es="// experiencia" data-en="// experience">// experiencia</a></li>
@@ -280,15 +286,15 @@
                     <p class="contact-info-text">📍 Mazatlán, Sinaloa, México | 📧 2024030408@upsin.edu.mx</p>
                     <form id="contact-form" class="form-contacto">
                         <div class="input-group">
-                            <label>[Nombre]:</label>
+                            <label data-es="[Nombre]:" data-en="[Name]:">[Nombre]:</label>
                             <input type="text" placeholder="Tu Nombre" required>
                         </div>
                         <div class="input-group">
-                            <label>[Email]:</label>
+                            <label data-es="[Email]:" data-en="[Email]:">[Email]:</label>
                             <input type="email" placeholder="tu-correo@dominio.com" required>
                         </div>
                         <div class="input-group">
-                            <label>[Mensaje]:</label>
+                            <label data-es="[Mensaje]:" data-en="[Message]:">[Mensaje]:</label>
                             <textarea placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" data-es="PING / Enviar Mensaje"
