@@ -1,0 +1,34 @@
+.card-company {
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+.experience-list {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.experience-list li {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.experience-list li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+}
+
+.contact-info-text {
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
