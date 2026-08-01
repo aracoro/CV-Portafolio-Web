@@ -24,15 +24,13 @@ body {
     line-height: 1.6;
 }
 
-/* ==========================================
-   1. BARRA DE NAVEGACIÓN
-   ========================================== */
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 8%;
-    background-color: rgba(10, 14, 23, 0.9);
+    background-color: rgba(10, 14, 23, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
@@ -78,9 +76,19 @@ body {
     color: var(--accent-cyan);
 }
 
-/* ==========================================
-   2. HERO / ENCABEZADO Y FOTO DE PERFIL
-   ========================================== */
+/* Botón Hamburguesa */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--accent-cyan);
+    font-size: 1.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hero Section */
 .hero {
     padding: 5rem 1.5rem 3rem 1.5rem;
 }
@@ -205,9 +213,7 @@ body {
     color: var(--accent-cyan);
 }
 
-/* ==========================================
-   3. ESTRUCTURA PRINCIPAL Y SECCIONES
-   ========================================== */
+/* Container & Sections */
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -216,6 +222,8 @@ body {
 
 .section {
     margin-bottom: 4rem;
+    scroll-margin-top: 90px;
+    /* Evita que la barra tape el título al hacer clic en el menú */
 }
 
 .section-title {
@@ -229,9 +237,7 @@ body {
     color: var(--accent-cyan);
 }
 
-/* ==========================================
-   4. COMPONENTE TIPO TERMINAL
-   ========================================== */
+/* Terminal Component */
 .terminal-window {
     background-color: var(--bg-terminal);
     border: 1px solid var(--border-color);
@@ -289,9 +295,7 @@ body {
     font-family: var(--font-sans);
 }
 
-/* ==========================================
-   5. SECCIÓN DE VISUALIZACIÓN DE CV
-   ========================================== */
+/* CV Viewer */
 .cv-box {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -320,9 +324,7 @@ body {
     background-color: #ffffff;
 }
 
-/* ==========================================
-   6. TARJETAS DE EXPERIENCIA
-   ========================================== */
+/* Cards & Experience */
 .grid-proyectos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -397,9 +399,7 @@ body {
     border-radius: 4px;
 }
 
-/* ==========================================
-   7. SECCIÓN DE DIPLOMAS
-   ========================================== */
+/* Diplomas Grid */
 .grid-diplomas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -452,9 +452,7 @@ body {
     font-size: 0.85rem;
 }
 
-/* ==========================================
-   8. HABILIDADES Y EDUCACIÓN
-   ========================================== */
+/* Skills Grid */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -493,9 +491,7 @@ body {
     color: #64748b;
 }
 
-/* ==========================================
-   9. FORMULARIO DE CONTACTO Y PIE
-   ========================================== */
+/* Contact Form */
 .contact-info-text {
     color: var(--accent-cyan);
     font-family: var(--font-mono);
@@ -545,10 +541,30 @@ footer {
     font-size: 0.8rem;
 }
 
-/* ==========================================
-   10. RESPONSIVO PARA MÓVILES
-   ========================================== */
+/* Responsivo y Menú Desplegable en Celulares */
 @media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-card);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem;
+        gap: 1.2rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
     .hero-container {
         flex-direction: column;
         text-align: center;
@@ -560,10 +576,5 @@ footer {
 
     .hero-buttons {
         justify-content: center;
-    }
-
-    .nav-links {
-        display: none;
-        /* En móviles simplifica la barra */
     }
 }

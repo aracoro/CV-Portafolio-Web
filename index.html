@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Araceli Puerta | Estudiante de TI & Redes</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Fuentes Google: JetBrains Mono e Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -19,24 +18,29 @@
     <!-- Navegación -->
     <nav class="navbar">
         <div class="logo">
-            <span class="prompt">araceli@network:~$</span> <span class="cursor">_</span>
+            <span class="prompt">acrn@network:~$</span> <span class="cursor">_</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#sobre-mi">// sobre-mi</a></li>
-            <li><a href="#cv-section">// mi-cv</a></li>
-            <li><a href="#experiencia">// experiencia</a></li>
-            <li><a href="#diplomas">// diplomas</a></li>
-            <li><a href="#skills">// habilidades</a></li>
-            <li><a href="#contacto">// contacto</a></li>
+            <li><a href="#sobre-mi" data-es="// sobre-mi" data-en="// about-me">// sobre-mi</a></li>
+            <li><a href="#cv-section" data-es="// mi-cv" data-en="// my-resume">// mi-cv</a></li>
+            <li><a href="#experiencia" data-es="// experiencia" data-en="// experience">// experiencia</a></li>
+            <li><a href="#diplomas" data-es="// concursos" data-en="// competitions">// concursos</a></li>
+            <li><a href="#certificaciones" data-es="// certificaciones" data-en="// certifications">//
+                    certificaciones</a></li>
+            <li><a href="#skills" data-es="// habilidades" data-en="// skills">// habilidades</a></li>
+            <li><a href="#contacto" data-es="// contacto" data-en="// contact">// contacto</a></li>
         </ul>
+
+        <button id="lang-toggle" class="btn btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+            🌐 ES / EN
+        </button>
     </nav>
 
-    <!-- Hero Section con FOTO DE PERFIL -->
+    <!-- Header / Hero -->
     <header class="hero">
         <div class="hero-container">
             <div class="profile-img-container">
-                <!-- Reemplaza "assets/img/mi-foto.jpg" por la ruta de tu foto -->
-                <img src="assets/img/mi-foto.jpg" alt="Araceli Puerta" class="profile-img">
+                <img src="assets/img/araceli.png" alt="Araceli Puerta" class="profile-img">
                 <span class="status-indicator" title="Disponible"></span>
             </div>
 
@@ -44,12 +48,20 @@
                 <div class="terminal-badge">
                     <span class="status-dot"></span> STATUS: CONNECTED (Mazatlán, Sinaloa)
                 </div>
-                <h1>Hola, soy <span class="highlight">Araceli Puerta</span></h1>
-                <p class="subtitle">Estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital |
-                    Apasionada por las Redes e Infraestructura</p>
+                <h1>
+                    <span data-es="Hola, soy" data-en="Hi, I'm">Hola, soy</span>
+                    <span class="highlight">Araceli Puerta</span>
+                </h1>
+                <p class="subtitle"
+                    data-es="Estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital | Apasionada por las Redes e Infraestructura"
+                    data-en="Information Technology & Digital Innovation Engineering Student | Network & Infrastructure Enthusiast">
+                    Estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital | Apasionada por las
+                    Redes e Infraestructura
+                </p>
 
                 <div class="hero-buttons">
-                    <a href="#cv-section" class="btn btn-primary">Ver / Descargar CV</a>
+                    <a href="#cv-section" class="btn btn-primary" data-es="Ver / Descargar CV"
+                        data-en="View / Download CV">Ver / Descargar CV</a>
                     <a href="https://github.com/AraceliPuertaC" target="_blank" class="btn btn-secondary">GitHub</a>
                     <a href="https://www.linkedin.com/in/araceli-puerta-coronado" target="_blank"
                         class="btn btn-secondary">LinkedIn</a>
@@ -60,9 +72,10 @@
 
     <main class="container">
 
-        <!-- Sobre mí -->
+        <!-- <01> Sobre mí -->
         <section id="sobre-mi" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;01&gt;</span> Sobre mí</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;01&gt;</span> <span data-es="Sobre mí"
+                    data-en="About Me">Sobre mí</span></h2>
             <div class="terminal-window">
                 <div class="terminal-header">
                     <span class="dot red"></span>
@@ -72,51 +85,68 @@
                 </div>
                 <div class="terminal-body">
                     <p><span class="cmd-prompt">$ cat profile.txt</span></p>
-                    <p class="bio-text">
+                    <p class="bio-text"
+                        data-es="Estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital en la Universidad Politécnica de Sinaloa. Cuenta con interés enfocado en redes de computadoras y experiencia práctica en la gestión de autenticación con Microsoft Entra ID y M365, además de brindar asesoría académica universitaria en temas de redes."
+                        data-en="IT and Digital Innovation Engineering Student at Universidad Politécnica de Sinaloa. Focused on computer networks with hands-on experience in identity authentication using Microsoft Entra ID and M365, alongside academic advising in networking topics.">
                         Estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital en la Universidad
-                        Politécnica de Sinaloa.
-                        Cuenta con interés enfocado en redes de computadoras y experiencia práctica en la gestión de
-                        autenticación con Microsoft Entra ID y M365,
-                        además de brindar asesoría académica universitaria en temas de redes.
+                        Politécnica de Sinaloa. Cuenta con interés enfocado en redes de computadoras y experiencia
+                        práctica en la gestión de autenticación con Microsoft Entra ID y M365, además de brindar
+                        asesoría académica universitaria en temas de redes.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN NUEVA: Espacio para Visualizar y Descargar CV -->
+        <!-- <02> CV -->
         <section id="cv-section" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;02&gt;</span> Currículum Vitae</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;02&gt;</span> <span data-es="Currículum Vitae"
+                    data-en="Resume / CV">CV</span></h2>
             <div class="cv-box">
                 <div class="cv-header">
-                    <h3>📄 Curriculum Vitae - Araceli Puerta Coronado</h3>
-                    <a href="assets/docs/CV_Araceli_Puerta.pdf" download class="btn btn-primary">Descargar PDF</a>
+                    <h3>CV - Araceli Puerta Coronado</h3>
+                    <a href="assets/docs/CV_Araceli_Puerta.pdf" download class="btn btn-primary" data-es="Descargar PDF"
+                        data-en="Download PDF">Descargar PDF</a>
                 </div>
-                <!-- Visor de PDF embebido -->
                 <div class="cv-viewer">
                     <iframe src="assets/docs/CV_Araceli_Puerta.pdf" width="100%" height="500px"></iframe>
                 </div>
             </div>
         </section>
 
-        <!-- Experiencia Laboral & Académica -->
+        <!-- <03> Experiencia -->
         <section id="experiencia" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;03&gt;</span> Experiencia</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;03&gt;</span> <span data-es="Experiencia"
+                    data-en="Experience">Experiencia</span></h2>
             <div class="grid-proyectos">
 
                 <!-- Grupo Petroll -->
                 <article class="card">
                     <div class="card-status">[ABRIL 2026 - AGOSTO 2026]</div>
-                    <h3>Practicante de Soporte Técnico e Infraestructura</h3>
-                    <p class="card-company">Grupo Petroll (Estadías Profesionales)</p>
+                    <h3 data-es="Practicante de Soporte Técnico e Infraestructura"
+                        data-en="IT Support & Infrastructure Intern">Practicante de Soporte Técnico e Infraestructura
+                    </h3>
+                    <p class="card-company">Grupo Petroll</p>
                     <ul class="experience-list">
-                        <li>Gestioné esquemas y métodos de autenticación de usuarios e identidades corporativas
-                            utilizando Microsoft Entra ID (Azure AD).</li>
-                        <li>Colaboré en la administración de cuentas, accesos y seguridad de usuarios a través del
-                            Centro de Administración de Microsoft 365.</li>
-                        <li>Realicé despliegues, formateo, instalación y configuración inicial de sistemas operativos
-                            corporativos (Windows 11 Pro) y software empresarial.</li>
-                        <li>Brindé soporte técnico operativo a usuarios finales y resolución de incidencias de
-                            conectividad e infraestructura de TI.</li>
+                        <li data-es="Gestioné esquemas y métodos de autenticación de usuarios e identidades corporativas utilizando Microsoft Entra ID (Azure AD)."
+                            data-en="Managed user authentication methods and corporate identities using Microsoft Entra ID (Azure AD).">
+                            Gestioné esquemas y métodos de autenticación de usuarios e identidades corporativas
+                            utilizando Microsoft Entra ID (Azure AD).
+                        </li>
+                        <li data-es="Colaboré en la administración de cuentas, accesos y seguridad de usuarios a través del Centro de Administración de Microsoft 365."
+                            data-en="Collaborated in account, access, and security management using Microsoft 365 Admin Center.">
+                            Colaboré en la administración de cuentas, accesos y seguridad de usuarios a través del
+                            Centro de Administración de Microsoft 365.
+                        </li>
+                        <li data-es="Realicé despliegues, formateo, instalación y configuración inicial de sistemas operativos corporativos (Windows 11 Pro) y software empresarial."
+                            data-en="Executed OS deployment, formatting, installation, and initial setup for corporate systems (Windows 11 Pro).">
+                            Realicé despliegues, formateo, instalación y configuración inicial de sistemas operativos
+                            corporativos (Windows 11 Pro) y software empresarial.
+                        </li>
+                        <li data-es="Brindé soporte técnico operativo a usuarios finales y resolución de incidencias de conectividad e infraestructura de TI."
+                            data-en="Provided technical support to end-users and resolved network connectivity and IT infrastructure issues.">
+                            Brindé soporte técnico operativo a usuarios finales y resolución de incidencias de
+                            conectividad e infraestructura de TI.
+                        </li>
                     </ul>
                     <div class="tags">
                         <span>Microsoft Entra ID</span>
@@ -128,88 +158,93 @@
 
                 <!-- Asesora Académica -->
                 <article class="card">
-                    <div class="card-status">[SEP 2025 - PRESENT]</div>
-                    <h3>Asesora Académica de Redes</h3>
+                    <div class="card-status">[SEPTIEMBRE 2025 - PRESENTE]</div>
+                    <h3 data-es="Asesora Académica de Redes" data-en="Academic Advisor in Networking">Asesora Académica
+                        de Redes</h3>
                     <p class="card-company">Universidad Politécnica de Sinaloa</p>
                     <ul class="experience-list">
-                        <li>Diseñé e impartí sesiones de refuerzo en switching, routing y direccionamiento IP para
-                            estudiantes universitarios.</li>
-                        <li>Participación en Competencias Capture The Flag (CTF): ANUIES (Octubre 2025) y Women-Project
-                            Luna Guide (Marzo 2026).</li>
-                        <li>Resolución de retos prácticos de ciberseguridad ofensiva/defensiva, análisis de datos,
-                            decodificación y lógica de seguridad.</li>
+                        <li data-es="Diseñé e impartí sesiones de refuerzo en switching, routing y direccionamiento IP para estudiantes universitarios."
+                            data-en="Designed and conducted tutoring sessions on switching, routing, and IP addressing for college students.">
+                            Diseñé e impartí sesiones de refuerzo en switching, routing y direccionamiento IP para
+                            estudiantes universitarios.
+                        </li>
+                        <li data-es="Participación en Competencias Capture The Flag (CTF): ANUIES y Women-Project Luna Guide."
+                            data-en="Participated in Capture The Flag (CTF) competitions: ANUIES and Women-Project Luna Guide.">
+                            Participación en Competencias Capture The Flag (CTF): ANUIES y Women-Project Luna Guide.
+                        </li>
                     </ul>
                     <div class="tags">
                         <span>Routing & Switching</span>
                         <span>Direccionamiento IP</span>
                         <span>CTF</span>
-                        <span>Capacitación</span>
                     </div>
                 </article>
 
             </div>
         </section>
 
-        <!-- SECCIÓN NUEVA: Diplomas y Certificaciones -->
+        <!-- <04> Concursos & Reconocimientos -->
         <section id="diplomas" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;04&gt;</span> Diplomas & Reconocimientos</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;04&gt;</span> <span
+                    data-es="Concursos & Reconocimientos" data-en="Competitions and Awards">Concursos &
+                    Reconocimientos</span></h2>
             <div class="grid-diplomas">
 
-                <!-- Diploma 1 -->
                 <div class="diploma-card">
                     <div class="diploma-img-wrapper">
-                        <img src="assets/img/diploma-1.png" alt="Diploma ANUIES CTF" onclick="window.open(this.src)">
+                        <img src="assets/docs/concurso.jpeg" alt="Diploma ANUIES CTF" onclick="window.open(this.src)">
                     </div>
-                    <h4>Reconocimiento CTF ANUIES</h4>
-                    <p>Participación en competencias prácticas de retos de red y seguridad (Octubre 2025).</p>
+                    <h4>CTF ANUIES</h4>
+                    <p data-es="Participación en competencias prácticas de retos de red y seguridad."
+                        data-en="Participation in network and security challenges competition.">
+                        Participación en competencias prácticas de retos de red y seguridad.
+                    </p>
                 </div>
 
-                <!-- Diploma 2 -->
                 <div class="diploma-card">
                     <div class="diploma-img-wrapper">
                         <img src="assets/img/diploma-2.png" alt="Diploma Women-Project Luna"
                             onclick="window.open(this.src)">
                     </div>
                     <h4>Women-Project Luna Guide</h4>
-                    <p>Participación en la edición Marzo 2026.</p>
+                    <p data-es="Participación en el proyecto de desarrollo tecnológico."
+                        data-en="Participation in technology development program.">
+                        Participación en el proyecto de desarrollo tecnológico.
+                    </p>
                 </div>
-
-                <!-- Puedes copiar y pegar más <div class="diploma-card"> para agregar otros diplomas -->
 
             </div>
         </section>
 
-        <!-- Educación & Idiomas -->
-        <section id="educacion" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;05&gt;</span> Educación & Idiomas</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Educación Formal</h3>
-                    <ul class="skills-list">
-                        <li><strong>Ingeniería en Tecnologías de la Información e Innovación
-                                Digital</strong><br><small>Universidad Politécnica de Sinaloa (2024 - En curso)</small>
-                        </li>
-                        <li><strong>Centro de Estudios de Idiomas UAS</strong><br><small>Formación en idioma inglés
-                                (2022 - 2025)</small></li>
-                    </ul>
+        <!-- <05> Certificaciones & Cursos -->
+        <section id="certificaciones" class="section">
+            <h2 class="section-title"><span class="code-tag">&lt;05&gt;</span> <span data-es="Certificaciones & Cursos"
+                    data-en="Certifications & Courses">Certificaciones & Cursos</span></h2>
+            <div class="grid-diplomas">
+
+                <div class="diploma-card">
+                    <div class="diploma-img-wrapper">
+                        <img src="assets/img/diploma-uas-ingles.png" alt="Constancia de Idioma Inglés UAS"
+                            onclick="window.open(this.src)">
+                    </div>
+                    <h4>Constancia de Idioma Inglés</h4>
+                    <p data-es="Formación académica en idioma inglés por el Centro de Estudios de Idiomas UAS (2022 - 2025)."
+                        data-en="English language academic training at Centro de Estudios de Idiomas UAS (2022 - 2025).">
+                        Formación académica en idioma inglés por el Centro de Estudios de Idiomas UAS (2022 - 2025).
+                    </p>
                 </div>
 
-                <div class="skill-category">
-                    <h3>Idiomas</h3>
-                    <ul class="skills-list">
-                        <li>Español: Nativo</li>
-                        <li>Inglés: Nivel A2</li>
-                    </ul>
-                </div>
             </div>
         </section>
 
-        <!-- Habilidades Técnicas -->
+        <!-- <06> Habilidades Técnicas -->
         <section id="skills" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;06&gt;</span> Habilidades Técnicas</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;06&gt;</span> <span data-es="Habilidades Técnicas"
+                    data-en="Technical Skills">Habilidades Técnicas</span></h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3>Redes e Infraestructura</h3>
+                    <h3 data-es="Redes e Infraestructura" data-en="Networking & Infrastructure">Redes e Infraestructura
+                    </h3>
                     <ul class="skills-list">
                         <li>Redes (Modelo OSI, TCP/IP)</li>
                         <li>Routing y Switching básico</li>
@@ -219,7 +254,7 @@
                 </div>
 
                 <div class="skill-category">
-                    <h3>Sistemas & Plataformas</h3>
+                    <h3 data-es="Sistemas & Plataformas" data-en="Systems & Platforms">Sistemas & Plataformas</h3>
                     <ul class="skills-list">
                         <li>Microsoft Entra ID (Autenticación)</li>
                         <li>Centro de Administración M365</li>
@@ -230,9 +265,10 @@
             </div>
         </section>
 
-        <!-- Contacto -->
+        <!-- <07> Contacto -->
         <section id="contacto" class="section">
-            <h2 class="section-title"><span class="code-tag">&lt;07&gt;</span> Contacto</h2>
+            <h2 class="section-title"><span class="code-tag">&lt;07&gt;</span> <span data-es="Contacto"
+                    data-en="Contact">Contacto</span></h2>
             <div class="terminal-window">
                 <div class="terminal-header">
                     <span class="dot red"></span>
@@ -244,7 +280,7 @@
                     <p class="contact-info-text">📍 Mazatlán, Sinaloa, México | 📧 2024030408@upsin.edu.mx</p>
                     <form id="contact-form" class="form-contacto">
                         <div class="input-group">
-                            <label>[Name]:</label>
+                            <label>[Nombre]:</label>
                             <input type="text" placeholder="Tu Nombre" required>
                         </div>
                         <div class="input-group">
@@ -252,10 +288,11 @@
                             <input type="email" placeholder="tu-correo@dominio.com" required>
                         </div>
                         <div class="input-group">
-                            <label>[Message]:</label>
+                            <label>[Mensaje]:</label>
                             <textarea placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">PING / Enviar Mensaje</button>
+                        <button type="submit" class="btn btn-primary" data-es="PING / Enviar Mensaje"
+                            data-en="PING / Send Message">PING / Enviar Mensaje</button>
                     </form>
                 </div>
             </div>
