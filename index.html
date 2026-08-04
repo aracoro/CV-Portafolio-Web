@@ -125,13 +125,13 @@
                     data-en="Experience">Experiencia</span></h2>
             <div class="grid-proyectos">
 
-                <!-- Grupo Petroll -->
+                <!-- Grupo Petroil -->
                 <article class="card">
                     <div class="card-status">[ABRIL 2026 - AGOSTO 2026]</div>
                     <h3 data-es="Practicante de Soporte Técnico e Infraestructura"
                         data-en="IT Support & Infrastructure Intern">Practicante de Soporte Técnico e Infraestructura
                     </h3>
-                    <p class="card-company">Grupo Petroll</p>
+                    <p class="card-company">Grupo Petroil</p>
                     <ul class="experience-list">
                         <li data-es="Gestioné esquemas y métodos de autenticación de usuarios e identidades corporativas utilizando Microsoft Entra ID (Azure AD)."
                             data-en="Managed user authentication methods and corporate identities using Microsoft Entra ID (Azure AD).">
@@ -218,11 +218,12 @@
                         Participación en el proyecto de desarrollo tecnológico.
                     </p>
                 </div>
+
+                <!-- Tarjeta 3: Reconocimiento Evolución de Dispositivos -->
                 <div class="diploma-card">
                     <a href="assets/docs/Reconocimento Proyecto Evo.pdf" target="_blank" rel="noopener noreferrer"
                         style="text-decoration: none; color: inherit; display: block; position: relative;">
 
-                        <!-- Capa transparente que captura el clic sobre el PDF -->
                         <div
                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer;">
                         </div>
@@ -242,18 +243,17 @@
                     </a>
                 </div>
 
+                <!-- Tarjeta 4: Reconocimiento Auxiliar de Soporte Técnico -->
                 <div class="diploma-card">
-                    <a href="assets/docs/Practicas_Grupo Petroil.pdf" target="_blank" rel="noopener noreferrer"
+                    <a href="assets/docs/Practicas.pdf" target="_blank" rel="noopener noreferrer"
                         style="text-decoration: none; color: inherit; display: block; position: relative;">
 
-                        <!-- Capa transparente que captura el clic sobre el PDF -->
                         <div
                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer;">
                         </div>
 
-                        <div class="diploma-img-wrapper" style="height: 220px; background: #ffffff;">
-                            <!-- Visualizador directo del PDF adaptado a la tarjeta -->
-                            <iframe src="assets/docs/Practicas_Grupo Petroil.pdf" width="100%" height="100%"
+                        <div class="diploma-img-wrapper">
+                            <iframe src="assets/docs/Practicas.pdf" width="100%" height="100%"
                                 style="border: none;"></iframe>
                         </div>
 
@@ -265,6 +265,7 @@
                         </p>
                     </a>
                 </div>
+
             </div>
         </section>
 
@@ -278,13 +279,11 @@
                     <a href="assets/docs/StatementOfResult.pdf" target="_blank" rel="noopener noreferrer"
                         style="text-decoration: none; color: inherit; display: block; position: relative;">
 
-                        <!-- Capa transparente que captura el clic sobre el PDF -->
                         <div
                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer;">
                         </div>
 
                         <div class="diploma-img-wrapper" style="height: 220px; background: #ffffff;">
-                            <!-- Visualizador directo del PDF adaptado a la tarjeta -->
                             <iframe src="assets/docs/StatementOfResult.pdf" width="100%" height="100%"
                                 style="border: none;"></iframe>
                         </div>
@@ -341,18 +340,20 @@
                 </div>
                 <div class="terminal-body">
                     <p class="contact-info-text">📍 Mazatlán, Sinaloa, México | 📧 2024030408@upsin.edu.mx</p>
-                    <form id="contact-form" class="form-contacto">
+                    <form id="contact-form" class="form-contacto" action="https://formspree.io/f/TU_CODIGO_FORMSPREE"
+                        method="POST">
                         <div class="input-group">
                             <label data-es="[Nombre]:" data-en="[Name]:">[Nombre]:</label>
-                            <input type="text" placeholder="Tu Nombre" required>
+                            <input type="text" name="nombre" placeholder="Tu Nombre" required>
                         </div>
                         <div class="input-group">
                             <label data-es="[Email]:" data-en="[Email]:">[Email]:</label>
-                            <input type="email" placeholder="tu-correo@dominio.com" required>
+                            <input type="email" name="email" placeholder="tu-correo@dominio.com" required>
                         </div>
                         <div class="input-group">
                             <label data-es="[Mensaje]:" data-en="[Message]:">[Mensaje]:</label>
-                            <textarea placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
+                            <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." rows="4"
+                                required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" data-es="PING / Enviar Mensaje"
                             data-en="PING / Send Message">PING / Enviar Mensaje</button>
