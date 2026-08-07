@@ -332,7 +332,7 @@
                 <div class="terminal-body">
                     <p class="contact-info-text">📍 Mazatlán, Sinaloa, México | 📧 2024030406@upsin.edu.mx</p>
 
-                    <form id="contact-form" class="form-contacto" onsubmit="enviarCorreoPortafolio(event)">
+                    <form id="contact-form" class="form-contacto" onsubmit="enviarPorAPI(event)">
                         <div class="input-group">
                             <label data-es="[Nombre]:" data-en="[Name]:">[Nombre]:</label>
                             <input type="text" id="contacto-nombre" placeholder="Tu Nombre" required>
@@ -346,8 +346,11 @@
                             <textarea id="contacto-mensaje" placeholder="Escribe tu mensaje aquí..." rows="4"
                                 required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" data-es="PING / Enviar Mensaje"
+                        <button type="submit" id="btn-submit" class="btn btn-primary" data-es="PING / Enviar Mensaje"
                             data-en="PING / Send Message">PING / Enviar Mensaje</button>
+
+                        <p id="form-response"
+                            style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; display: none;"></p>
                     </form>
                 </div>
             </div>
@@ -359,19 +362,6 @@
         <p>&copy; 2026 | Araceli Puerta | Deployed on Vercel</p>
     </footer>
 
-    <script>
-        function sendMail(event) {
-            event.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const mensaje = document.getElementById('mensaje').value;
-
-            const subject = encodeURIComponent(`Contacto Portafolio - ${nombre}`);
-            const body = encodeURIComponent(`Nombre: ${nombre}\nCorreo: ${email}\n\nMensaje:\n${mensaje}`);
-
-            window.location.href = `mailto:2024030406@upsin.edu.mx?subject=${subject}&body=${body}`;
-        }
-    </script>
     <script src="script.js"></script>
 </body>
 
