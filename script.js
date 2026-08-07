@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Cambio de Idioma ---
     const langToggleBtn = document.getElementById('lang-toggle');
     let currentLang = 'es';
 
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Menú Hamburguesa / Móvil ---
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
 
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Función para enviar el formulario a la API Serverless (Resend) ---
 async function enviarPorAPI(event) {
     event.preventDefault();
 

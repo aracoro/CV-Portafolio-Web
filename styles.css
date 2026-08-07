@@ -24,9 +24,7 @@ body {
     line-height: 1.6;
 }
 
-/* ==========================================
-   1. BARRA DE NAVEGACIÓN
-   ========================================== */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -78,7 +76,6 @@ body {
     color: var(--accent-cyan);
 }
 
-/* Botón Hamburguesa */
 .menu-toggle {
     display: none;
     background: transparent;
@@ -90,9 +87,6 @@ body {
     cursor: pointer;
 }
 
-/* ==========================================
-   2. HERO / FOTO DE PERFIL (FORMATO TARJETA)
-   ========================================== */
 .hero {
     padding: 4rem 1.5rem 3rem 1.5rem;
 }
@@ -107,7 +101,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* Foto de Perfil: Estilo Tarjeta Elegante (Sin Círculo) */
 .profile-img-container {
     position: relative;
     width: 180px;
@@ -226,9 +219,6 @@ body {
     color: var(--accent-cyan);
 }
 
-/* ==========================================
-   3. ESTRUCTURA Y SECCIONES
-   ========================================== */
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -251,7 +241,6 @@ body {
     color: var(--accent-cyan);
 }
 
-/* Terminal Component */
 .terminal-window {
     background-color: var(--bg-terminal);
     border: 1px solid var(--border-color);
@@ -309,7 +298,6 @@ body {
     font-family: var(--font-sans);
 }
 
-/* CV Viewer */
 .cv-box {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -338,7 +326,6 @@ body {
     background-color: #ffffff;
 }
 
-/* Cards & Experience */
 .grid-proyectos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -413,7 +400,6 @@ body {
     border-radius: 4px;
 }
 
-/* Diplomas & Certificaciones (Diseño Adaptable) */
 .grid-diplomas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -439,9 +425,7 @@ body {
 .diploma-img-wrapper {
     width: 100%;
     height: auto;
-    /* Permite que la altura se ajuste sola al documento */
     max-height: 220px;
-    /* Límite para que no abarque toda la pantalla */
     overflow: hidden;
     border-radius: 6px;
     margin-bottom: 1rem;
@@ -456,7 +440,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Ajusta la imagen completa sin recortar bordes */
     cursor: pointer;
     transition: transform 0.3s ease;
 }
@@ -478,7 +461,6 @@ body {
     line-height: 1.5;
 }
 
-/* Skills Grid */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -513,7 +495,6 @@ body {
     flex-direction: column;
 }
 
-/* Contact Form */
 .contact-info-text {
     color: var(--accent-cyan);
     font-family: var(--font-mono);
@@ -563,13 +544,10 @@ footer {
     font-size: 0.8rem;
 }
 
-/* ==========================================
-   4. RESPONSIVO Y MENÚ HAMBURGUESA
-   ========================================== */
+
 @media (max-width: 900px) {
     .menu-toggle {
         display: block;
-        /* Muestra el botón ☰ en pantallas pequeñas */
     }
 
     .nav-links {
@@ -588,7 +566,6 @@ footer {
 
     .nav-links.active {
         display: flex;
-        /* Despliega el menú al pulsar el botón */
     }
 
     .hero-container {
