@@ -43,5 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function enviarCorreoPortafolio(event) {
+        event.preventDefault();
 
+        const nombre = document.getElementById('contacto-nombre').value;
+        const email = document.getElementById('contacto-email').value;
+        const mensaje = document.getElementById('contacto-mensaje').value;
+
+        const asunto = encodeURIComponent(`Contacto desde Portafolio Web - ${nombre}`);
+        const cuerpo = encodeURIComponent(`Hola Araceli,\n\nTe han enviado un mensaje desde tu sitio web:\n\nNombre: ${nombre}\nCorreo: ${email}\n\nMensaje:\n${mensaje}`);
+
+        window.location.href = `mailto:2024030406@upsin.edu.mx?subject=${asunto}&body=${cuerpo}`;
+    }
 });
