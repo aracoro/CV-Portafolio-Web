@@ -18,12 +18,13 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 from: 'Portafolio <onboarding@resend.dev>',
-                to: '2024030406@upsin.edu.mx',
+                to: 'aracelipuert@gmail.com',
+                reply_to: email, // <-- Dirección a la que le responderás
                 subject: `Mensaje de Portafolio: ${nombre}`,
                 html: `
                     <h3>Nuevo mensaje desde tu Portafolio Web</h3>
                     <p><strong>Nombre:</strong> ${nombre}</p>
-                    <p><strong>Correo:</strong> ${email}</p>
+                    <p><strong>Correo del usuario:</strong> ${email}</p>
                     <p><strong>Mensaje:</strong></p>
                     <p>${mensaje}</p>
                 `
