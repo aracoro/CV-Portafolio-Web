@@ -1,3 +1,5 @@
+import dns from 'dns/promises';
+
 const rateLimitMap = new Map();
 
 function escaparHtml(texto) {
@@ -20,6 +22,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
+    // 1. Validación de sintaxis estándar
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({ message: 'Por favor, ingresa un formato de correo válido.' });
@@ -42,19 +45,17 @@ export default async function handler(req, res) {
 
     rateLimitMap.set(clientIp, now);
 
-    // Validación estricta de dominio desechable y activo mediante API pública segura
+    // 2. Validación de dominio real mediante registros MX del servidor DNS
     const dominio = email.split('@')[1]?.toLowerCase();
     try {
-        const checkRes = await fetch(`https://open.kickbox.com/v1/disposable/${dominio}`);
-        if (checkRes.ok) {
-            const checkData = await checkRes.json();
-            if (checkData.disposable === true) {
-                rateLimitMap.delete(clientIp);
-                return res.status(400).json({ message: 'No se permiten correos temporales o desechables.' });
-            }
+        const registrosMx = await dns.resolveMx(dominio);
+        if (!registrosMx || registrosMx.length === 0) {
+            rateLimitMap.delete(clientIp);
+            return res.status(400).json({ message: 'El dominio del correo no cuenta con servidores para recibir mensajes.' });
         }
-    } catch (e) {
-        // Si falla la red externa, permitimos continuar para no bloquear al usuario por errores de terceros
+    } catch (error) {
+        rateLimitMap.delete(clientIp);
+        return res.status(400).json({ message: 'El dominio del correo ingresado no existe o no es válido.' });
     }
 
     // Ofuscación del correo de destino (Resend)
