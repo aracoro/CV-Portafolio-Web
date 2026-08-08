@@ -1,11 +1,13 @@
+const rateLimitMap = new Map();
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Método no permitido' });
     }
 
-    const { nombre, email, mensaje, honeypot } = req.body;
+    const { nombre, email, mensaje, website_hp } = req.body;
 
-    if (honeypot) {
+    if (website_hp) {
         return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
     }
 
@@ -15,50 +17,23 @@ export default async function handler(req, res) {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-        return res.status(400).json({ message: 'El formato del correo electrónico es inválido.' });
+        return res.status(400).json({ message: 'Por favor, ingresa un formato de correo válido.' });
     }
 
-    const domain = email.split('@')[1]?.toLowerCase();
-    if (!domain) {
-        return res.status(400).json({ message: 'Dominio de correo no válido.' });
-    }
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const COOLDOWN_TIME = 2 * 60 * 1000;
 
-    const disposableKeywords = [
-        'temp', 'trash', 'fake', 'disposable', 'throwaway', 'guerrilla', '10min',
-        'yopmail', 'mailinator', 'mrworlds', 'getnada', 'mohmal', 'crazymailing',
-        'sharklasers', 'guerillamail', 'pokemail', 'burner', 'dropmail'
-    ];
-
-    const isDisposableDomain = disposableKeywords.some(keyword => domain.includes(keyword));
-    if (isDisposableDomain) {
-        return res.status(400).json({
-            message: 'No se permiten direcciones de correo temporales o desechables.'
-        });
-    }
-
-    const apiKey = process.env.ABSTRACT_API_KEY;
-
-    if (apiKey) {
-        try {
-            const validationResponse = await fetch(`https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(email)}`);
-            const data = await validationResponse.json();
-
-            const status = data.email_deliverability?.status;
-            const isFormatValid = data.email_deliverability?.is_format_valid;
-            const isMxValid = data.email_deliverability?.is_mx_valid;
-            const isDisposable = data.email_quality?.is_disposable;
-            const riskStatus = data.email_risk?.address_risk_status;
-
-            if (!isFormatValid || !isMxValid || status === 'undeliverable' || isDisposable === true || riskStatus === 'high') {
-                return res.status(400).json({
-                    message: 'El correo ingresado no supera las verificaciones de entregabilidad o es un correo de riesgo.'
-                });
-            }
-        } catch (error) {
-            console.error('Error al verificar correo con Abstract API:', error);
-            return res.status(500).json({ message: 'Error al verificar la validez del correo.' });
+    if (rateLimitMap.has(clientIp)) {
+        const lastSent = rateLimitMap.get(clientIp);
+        if (now - lastSent < COOLDOWN_TIME) {
+            const remainingSeconds = Math.ceil((COOLDOWN_TIME - (now - lastSent)) / 1000);
+            return res.status(429).json({
+                message: `Por favor, espera ${remainingSeconds} segundos antes de enviar otro mensaje.`
+            });
         }
     }
+    rateLimitMap.set(clientIp, now);
 
     const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL;
 

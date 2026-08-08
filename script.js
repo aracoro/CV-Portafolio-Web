@@ -1,78 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const langToggleBtn = document.getElementById('lang-toggle');
-    let currentLang = 'es';
-
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', () => {
-            currentLang = currentLang === 'es' ? 'en' : 'es';
-
-            const translatableElements = document.querySelectorAll('[data-es][data-en]');
-
-            translatableElements.forEach(el => {
-                el.textContent = el.getAttribute(`data-${currentLang}`);
-            });
-
-            langToggleBtn.textContent = currentLang === 'es' ? '🌐 ES / EN' : '🌐 EN / ES';
-        });
-    }
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-});
-
-async function enviarPorAPI(event) {
-    event.preventDefault();
-
-    const btn = document.getElementById('btn-submit');
+    const contactForm = document.getElementById('contact-form');
     const responseText = document.getElementById('form-response');
+    const submitBtn = document.getElementById('btn-submit');
 
-    const data = {
-        nombre: document.getElementById('contacto-nombre').value,
-        email: document.getElementById('contacto-email').value,
-        mensaje: document.getElementById('contacto-mensaje').value
-    };
+    if (!contactForm) return;
 
-    btn.disabled = true;
-    btn.textContent = 'ENVIANDO...';
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    try {
-        const response = await fetch('/api/contacto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+        responseText.style.display = 'none';
+        responseText.textContent = '';
 
-        const result = await response.json();
+        const lastSubmitTime = localStorage.getItem('last_contact_submit');
+        const now = Date.now();
+        const COOLDOWN_MS = 2 * 60 * 1000;
 
-        responseText.style.display = 'block';
-        if (response.ok) {
-            responseText.style.color = '#64ffda';
-            responseText.textContent = '>>> ACK: ¡Mensaje enviado exitosamente!';
-            document.getElementById('contact-form').reset();
-        } else {
-            responseText.style.color = '#ff5555';
-            responseText.textContent = `>>> NACK: Error (${result.message})`;
+        if (lastSubmitTime && (now - lastSubmitTime < COOLDOWN_MS)) {
+            const waitTime = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+            responseText.style.color = '#ff9800';
+            responseText.textContent = `[429] Por favor espera ${waitTime} segundos antes de enviar otro mensaje.`;
+            responseText.style.display = 'block';
+            return;
         }
-    } catch (error) {
-        responseText.style.display = 'block';
-        responseText.style.color = '#ff5555';
-        responseText.textContent = '>>> ERROR: No se pudo conectar con el servidor.';
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'PING / Enviar Mensaje';
-    }
-}
+
+        const nombre = document.getElementById('contacto-nombre').value.trim();
+        const email = document.getElementById('contacto-email').value.trim();
+        const mensaje = document.getElementById('contacto-mensaje').value.trim();
+        const website_hp = document.getElementById('contacto-hp').value; // Honeypot
+
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'CONNECTING...';
+
+        try {
+            const response = await fetch('/api/contacto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre,
+                    email,
+                    mensaje,
+                    website_hp
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                responseText.style.color = '#00ff66';
+                responseText.textContent = `[200 OK] ${data.message || '¡Mensaje enviado con éxito!'}`;
+                localStorage.setItem('last_contact_submit', Date.now().toString());
+                contactForm.reset();
+            } else {
+                responseText.style.color = '#ff3333';
+                responseText.textContent = `[ERROR] ${data.message || 'Ocurrió un error al enviar.'}`;
+            }
+        } catch (error) {
+            responseText.style.color = '#ff3333';
+            responseText.textContent = '[ERROR] Fallo de conexión con el servidor.';
+        } finally {
+            responseText.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+});
