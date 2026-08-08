@@ -9,20 +9,17 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    // 1. Validación de calidad y existencia del correo vía Abstract API
     try {
         const apiKey = process.env.ABSTRACT_API_KEY || 'fdb211f1562a4a9ab0d5940dbd819b7a';
         const validationResponse = await fetch(`https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(email)}`);
         const data = await validationResponse.json();
 
-        // Extracción de métricas de seguridad según la respuesta de la API
         const isFormatValid = data.email_deliverability?.is_format_valid;
         const isMxValid = data.email_deliverability?.is_mx_valid;
         const status = data.email_deliverability?.status;
         const isDisposable = data.email_quality?.is_disposable;
         const riskStatus = data.email_risk?.address_risk_status;
 
-        // Rechaza el envío si el formato/MX es inválido, si es un correo desechable o de riesgo alto
         if (!isFormatValid || !isMxValid || status === 'undeliverable' || isDisposable || riskStatus === 'high') {
             return res.status(400).json({
                 message: 'El correo electrónico ingresado no existe, es inválido o se considera de riesgo.'
@@ -30,13 +27,10 @@ export default async function handler(req, res) {
         }
     } catch (error) {
         console.error('Error al verificar el correo con Abstract API:', error);
-        // Si la API de verificación falla externamente, se permite continuar para no bloquear usuarios legítimos
     }
 
-    // 2. Dirección de destino resguardada en variable de entorno
     const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL || 'aracelipuert@gmail.com';
 
-    // 3. Envío del correo con Resend
     try {
         const response = await fetch('https://api.resend.com/emails', {
             method: 'POST',
