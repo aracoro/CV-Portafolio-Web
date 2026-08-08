@@ -1,3 +1,5 @@
+import dns from 'dns/promises';
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Método no permitido' });
@@ -9,6 +11,26 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
+    // 1. Validar sintaxis y formato del correo
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'El formato del correo electrónico es inválido' });
+    }
+
+    // 2. Validar que el dominio exista realmente y reciba correos (Registros MX)
+    const domain = email.split('@')[1];
+    try {
+        const mxRecords = await dns.resolveMx(domain);
+        if (!mxRecords || mxRecords.length === 0) {
+            return res.status(400).json({ message: 'El correo ingresado no pertenece a un dominio existente o activo' });
+        }
+    } catch (error) {
+        return res.status(400).json({ message: 'El correo ingresado no pertenece a un servidor de correo existente' });
+    }
+
+    // 3. Ocultar la dirección de destino usando variable de entorno (con fallback a tu correo)
+    const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL || 'aracelipuert@gmail.com';
+
     try {
         const response = await fetch('https://api.resend.com/emails', {
             method: 'POST',
@@ -18,7 +40,7 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 from: 'Portafolio <onboarding@resend.dev>',
-                to: 'aracelipuert@gmail.com',
+                to: destinationEmail,
                 reply_to: email,
                 subject: `Mensaje de Portafolio: ${nombre}`,
                 html: `
