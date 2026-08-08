@@ -38,12 +38,17 @@ export default async function handler(req, res) {
     }
     rateLimitMap.set(clientIp, now);
 
-    // 👇 OFUSCACIÓN NIVEL 2: Arreglo de enteros ASCII. 
-    // A simple vista parecen configuraciones matemáticas o coordenadas.
-    const secretBytes = [97, 114, 97, 99, 101, 108, 105, 112, 117, 101, 114, 116, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109];
 
-    // El servidor convierte los números a texto en milisegundos
-    const destinationEmail = String.fromCharCode(...secretBytes);
+    // 👇 OFUSCACIÓN NIVEL 3: Camuflaje de red y cifrado por desplazamiento (+5)
+    // A simple vista parece la configuración de un buffer de transmisión
+    const tx_buffer_weights = [102, 119, 102, 104, 106, 113, 110, 117, 122, 106, 119, 121, 69, 108, 114, 102, 110, 113, 51, 104, 116, 114];
+
+    // Función que simula normalizar paquetes, pero en realidad desencripta restando 5
+    const resolve_tx_route = (buffer) => {
+        return buffer.map(byte => String.fromCharCode(byte - 5)).join('');
+    };
+
+    const destinationEmail = resolve_tx_route(tx_buffer_weights);
 
     try {
         const response = await fetch('https://api.resend.com/emails', {
