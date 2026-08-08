@@ -1,5 +1,3 @@
-import dns from 'dns/promises';
-
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Método no permitido' });
@@ -17,18 +15,22 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'El formato del correo electrónico es inválido' });
     }
 
-    // 2. Validar que el dominio exista realmente y reciba correos (Registros MX)
+    // 2. Validar que el dominio exista y tenga servidor MX (vía HTTP Google DNS API)
     const domain = email.split('@')[1];
     try {
-        const mxRecords = await dns.resolveMx(domain);
-        if (!mxRecords || mxRecords.length === 0) {
-            return res.status(400).json({ message: 'El correo ingresado no pertenece a un dominio existente o activo' });
+        const dnsResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
+        const dnsData = await dnsResponse.json();
+
+        // Status 0 significa NOERROR en DNS (el dominio existe)
+        // Y Answer verifica que tenga registros MX configurados
+        if (dnsData.Status !== 0 || !dnsData.Answer || dnsData.Answer.length === 0) {
+            return res.status(400).json({ message: 'El correo ingresado no pertenece a un dominio con servicio de correo activo' });
         }
     } catch (error) {
-        return res.status(400).json({ message: 'El correo ingresado no pertenece a un servidor de correo existente' });
+        return res.status(400).json({ message: 'Error al verificar la existencia del dominio de correo' });
     }
 
-    // 3. Ocultar la dirección de destino usando variable de entorno (con fallback a tu correo)
+    // 3. Ocultar la dirección de destino usando variable de entorno (con fallback)
     const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL || 'aracelipuert@gmail.com';
 
     try {
