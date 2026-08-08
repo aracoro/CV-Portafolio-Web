@@ -23,18 +23,16 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Dominio de correo no válido.' });
     }
 
-    const trustedDomains = [
-        'gmail.com', 'outlook.com', 'hotmail.com', 'live.com', 'yahoo.com',
-        'icloud.com', 'me.com', 'protonmail.com', 'proton.me', 'zoho.com',
-        'aol.com', 'gmx.com', 'mail.com',
-        'upsin.edu.mx'
+    const disposableKeywords = [
+        'temp', 'trash', 'fake', 'disposable', 'throwaway', 'guerrilla', '10min',
+        'yopmail', 'mailinator', 'mrworlds', 'getnada', 'mohmal', 'crazymailing',
+        'sharklasers', 'guerillamail', 'pokemail', 'burner', 'dropmail'
     ];
 
-    const isTrustedDomain = trustedDomains.includes(domain) || domain.endsWith('.edu') || domain.endsWith('.edu.mx');
-
-    if (!isTrustedDomain) {
+    const isDisposableDomain = disposableKeywords.some(keyword => domain.includes(keyword));
+    if (isDisposableDomain) {
         return res.status(400).json({
-            message: 'Solo se permiten direcciones de correo de proveedores reales o institucionales reconocidos (Gmail, Outlook, Yahoo, etc.).'
+            message: 'No se permiten direcciones de correo temporales o desechables.'
         });
     }
 
@@ -48,14 +46,17 @@ export default async function handler(req, res) {
             const status = data.email_deliverability?.status;
             const isFormatValid = data.email_deliverability?.is_format_valid;
             const isMxValid = data.email_deliverability?.is_mx_valid;
+            const isDisposable = data.email_quality?.is_disposable;
+            const riskStatus = data.email_risk?.address_risk_status;
 
-            if (!isFormatValid || !isMxValid || status === 'undeliverable') {
+            if (!isFormatValid || !isMxValid || status === 'undeliverable' || isDisposable === true || riskStatus === 'high') {
                 return res.status(400).json({
-                    message: 'El correo ingresado no existe o no puede recibir mensajes.'
+                    message: 'El correo ingresado no supera las verificaciones de entregabilidad o es un correo de riesgo.'
                 });
             }
         } catch (error) {
             console.error('Error al verificar correo con Abstract API:', error);
+            return res.status(500).json({ message: 'Error al verificar la validez del correo.' });
         }
     }
 
