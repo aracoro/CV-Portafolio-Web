@@ -7,6 +7,7 @@ export default async function handler(req, res) {
 
     const { nombre, email, mensaje, website_hp } = req.body;
 
+    // Filtro Honeypot
     if (website_hp) {
         return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
     }
@@ -15,11 +16,13 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
+    // Validación de correo del visitante
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({ message: 'Por favor, ingresa un formato de correo válido.' });
     }
 
+    // Rate Limit (2 minutos)
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
     const now = Date.now();
     const COOLDOWN_TIME = 2 * 60 * 1000;
@@ -35,7 +38,9 @@ export default async function handler(req, res) {
     }
     rateLimitMap.set(clientIp, now);
 
+    // 👇 OFUSCACIÓN DE CORREO: Visible en GitHub como un hash, no como un email.
     const secretHash = 'YXJhY2VsaXB1ZXJ0QGdtYWlsLmNvbQ==';
+    // El servidor lo decodifica en tiempo de ejecución
     const destinationEmail = Buffer.from(secretHash, 'base64').toString('utf-8');
 
     try {
