@@ -5,7 +5,6 @@ export default async function handler(req, res) {
 
     const { nombre, email, mensaje, honeypot } = req.body;
 
-    // 1. Filtro Honeypot (Trampa silenciosa para bots y scripts)
     if (honeypot) {
         return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
     }
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
-    // 2. Validación estricta del formato del correo
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({ message: 'El formato del correo electrónico es inválido.' });
@@ -25,17 +23,13 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Dominio de correo no válido.' });
     }
 
-    // 3. ALLOWLIST (Lista Blanca de Proveedores Reales y Confiables)
     const trustedDomains = [
-        // Proveedores globales principales
         'gmail.com', 'outlook.com', 'hotmail.com', 'live.com', 'yahoo.com',
         'icloud.com', 'me.com', 'protonmail.com', 'proton.me', 'zoho.com',
         'aol.com', 'gmx.com', 'mail.com',
-        // Dominios educativos / institucionales
         'upsin.edu.mx'
     ];
 
-    // Verificar si pertenece a la lista blanca o si es un correo educativo (.edu / .edu.mx)
     const isTrustedDomain = trustedDomains.includes(domain) || domain.endsWith('.edu') || domain.endsWith('.edu.mx');
 
     if (!isTrustedDomain) {
@@ -44,7 +38,6 @@ export default async function handler(req, res) {
         });
     }
 
-    // 4. Verificación adicional de calidad vía Abstract API (para asegurarse de que el buzón realmente exista dentro de Gmail/Outlook)
     const apiKey = process.env.ABSTRACT_API_KEY;
 
     if (apiKey) {
@@ -66,7 +59,6 @@ export default async function handler(req, res) {
         }
     }
 
-    // 5. Envío vía Resend (Dirección de destino protegida estrictamente en .env)
     const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL;
 
     if (!destinationEmail) {
