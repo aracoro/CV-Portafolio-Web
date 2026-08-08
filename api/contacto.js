@@ -9,30 +9,34 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    // 1. Validar sintaxis y formato del correo
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-        return res.status(400).json({ message: 'El formato del correo electrónico es inválido' });
-    }
-
-    // 2. Validar que el dominio exista y tenga servidor MX (vía HTTP Google DNS API)
-    const domain = email.split('@')[1];
+    // 1. Validación de calidad y existencia del correo vía Abstract API
     try {
-        const dnsResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
-        const dnsData = await dnsResponse.json();
+        const apiKey = process.env.ABSTRACT_API_KEY || 'fdb211f1562a4a9ab0d5940dbd819b7a';
+        const validationResponse = await fetch(`https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(email)}`);
+        const data = await validationResponse.json();
 
-        // Status 0 significa NOERROR en DNS (el dominio existe)
-        // Y Answer verifica que tenga registros MX configurados
-        if (dnsData.Status !== 0 || !dnsData.Answer || dnsData.Answer.length === 0) {
-            return res.status(400).json({ message: 'El correo ingresado no pertenece a un dominio con servicio de correo activo' });
+        // Extracción de métricas de seguridad según la respuesta de la API
+        const isFormatValid = data.email_deliverability?.is_format_valid;
+        const isMxValid = data.email_deliverability?.is_mx_valid;
+        const status = data.email_deliverability?.status;
+        const isDisposable = data.email_quality?.is_disposable;
+        const riskStatus = data.email_risk?.address_risk_status;
+
+        // Rechaza el envío si el formato/MX es inválido, si es un correo desechable o de riesgo alto
+        if (!isFormatValid || !isMxValid || status === 'undeliverable' || isDisposable || riskStatus === 'high') {
+            return res.status(400).json({
+                message: 'El correo electrónico ingresado no existe, es inválido o se considera de riesgo.'
+            });
         }
     } catch (error) {
-        return res.status(400).json({ message: 'Error al verificar la existencia del dominio de correo' });
+        console.error('Error al verificar el correo con Abstract API:', error);
+        // Si la API de verificación falla externamente, se permite continuar para no bloquear usuarios legítimos
     }
 
-    // 3. Ocultar la dirección de destino usando variable de entorno (con fallback)
+    // 2. Dirección de destino resguardada en variable de entorno
     const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL || 'aracelipuert@gmail.com';
 
+    // 3. Envío del correo con Resend
     try {
         const response = await fetch('https://api.resend.com/emails', {
             method: 'POST',
