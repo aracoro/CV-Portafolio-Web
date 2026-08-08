@@ -35,11 +35,7 @@ export default async function handler(req, res) {
     }
     rateLimitMap.set(clientIp, now);
 
-    const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL;
-
-    if (!destinationEmail) {
-        return res.status(500).json({ status: 'error', message: 'Configuración de servidor incompleta.' });
-    }
+    const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL || '2024030406@upsin.edu.mx';
 
     try {
         const response = await fetch('https://api.resend.com/emails', {
@@ -67,7 +63,7 @@ export default async function handler(req, res) {
             return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
         } else {
             const errorData = await response.json();
-            return res.status(500).json({ status: 'error', message: errorData.message });
+            return res.status(500).json({ status: 'error', message: errorData.message || 'Error en servicio de correo.' });
         }
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Error interno del servidor.' });

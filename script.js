@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lastSubmitTime && (now - lastSubmitTime < COOLDOWN_MS)) {
             const waitTime = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
             responseText.style.color = '#ff9800';
-            responseText.textContent = `[429] Por favor espera ${waitTime} segundos antes de enviar otro mensaje.`;
+            responseText.textContent = `[429] Por favor, espera ${waitTime} segundos antes de enviar otro mensaje.`;
             responseText.style.display = 'block';
             return;
         }
@@ -35,15 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/contacto', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nombre,
-                    email,
-                    mensaje,
-                    website_hp
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, email, mensaje, website_hp })
             });
 
             const data = await response.json();
