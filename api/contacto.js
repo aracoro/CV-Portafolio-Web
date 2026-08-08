@@ -38,10 +38,12 @@ export default async function handler(req, res) {
     }
     rateLimitMap.set(clientIp, now);
 
-    // 👇 OFUSCACIÓN DE CORREO: Visible en GitHub como un hash, no como un email.
-    const secretHash = 'YXJhY2VsaXB1ZXJ0QGdtYWlsLmNvbQ==';
-    // El servidor lo decodifica en tiempo de ejecución
-    const destinationEmail = Buffer.from(secretHash, 'base64').toString('utf-8');
+    // 👇 OFUSCACIÓN NIVEL 2: Arreglo de enteros ASCII. 
+    // A simple vista parecen configuraciones matemáticas o coordenadas.
+    const secretBytes = [97, 114, 97, 99, 101, 108, 105, 112, 117, 101, 114, 116, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109];
+
+    // El servidor convierte los números a texto en milisegundos
+    const destinationEmail = String.fromCharCode(...secretBytes);
 
     try {
         const response = await fetch('https://api.resend.com/emails', {
