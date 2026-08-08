@@ -1,4 +1,3 @@
-// Memoria en el servidor para el Rate Limit por IP
 const rateLimitMap = new Map();
 
 export default async function handler(req, res) {
@@ -8,7 +7,6 @@ export default async function handler(req, res) {
 
     const { nombre, email, mensaje, website_hp } = req.body;
 
-    // 1. FILTRO HONEYPOT (Atrapa bots sin revelar nada)
     if (website_hp) {
         return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
     }
@@ -17,13 +15,11 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
-    // 2. VALIDACIÓN DE SINTAXIS
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({ message: 'Por favor, ingresa un formato de correo válido.' });
     }
 
-    // 3. RATE LIMITING EN BACKEND (2 Minutos por IP)
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
     const now = Date.now();
     const COOLDOWN_TIME = 2 * 60 * 1000;
@@ -39,12 +35,8 @@ export default async function handler(req, res) {
     }
     rateLimitMap.set(clientIp, now);
 
-    // 4. DIRECCIÓN DE DESTINO PROTEGIDA (Oculta en Vercel)
-    const destinationEmail = process.env.CONTACT_RECIPIENT_EMAIL;
-
-    if (!destinationEmail) {
-        return res.status(500).json({ status: 'error', message: 'Configuración de servidor incompleta.' });
-    }
+    const secretHash = 'YXJhY2VsaXB1ZXJ0QGdtYWlsLmNvbQ==';
+    const destinationEmail = Buffer.from(secretHash, 'base64').toString('utf-8');
 
     try {
         const response = await fetch('https://api.resend.com/emails', {
@@ -61,7 +53,7 @@ export default async function handler(req, res) {
                 html: `
                     <h3>Nuevo mensaje desde tu Portafolio Web</h3>
                     <p><strong>Nombre:</strong> ${nombre}</p>
-                    <p><strong>Correo del usuario:</strong> ${email}</p>
+                    <p><strong>Correo del visitante:</strong> ${email}</p>
                     <p><strong>Mensaje:</strong></p>
                     <p>${mensaje}</p>
                 `
@@ -72,7 +64,7 @@ export default async function handler(req, res) {
             return res.status(200).json({ status: 'success', message: '¡Mensaje enviado con éxito!' });
         } else {
             const errorData = await response.json();
-            return res.status(500).json({ status: 'error', message: errorData.message || 'Error en servicio de correo.' });
+            return res.status(500).json({ status: 'error', message: errorData.message || 'Error en Resend.' });
         }
     } catch (error) {
         return res.status(500).json({ status: 'error', message: 'Error interno del servidor.' });
